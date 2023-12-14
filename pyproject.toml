@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "algorithm-py"
+version = "0.1.0"
+description = "Practice Problem Solving - Python"
+authors = ["Khoa Le <khoale.inbox@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
