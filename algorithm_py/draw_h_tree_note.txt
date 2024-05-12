@@ -1,0 +1,20 @@
+def drawLine(x1, y1, x2, y2) -> None:
+    print(x1,y1,x2,y2)
+  
+  if depth == 0:
+    return;
+  
+  drawLine(x-length/2, y, x + length/2, y)
+  drawLine(x-length/2, y + length/2, x - length/2, y - length/2)
+  drawLine(x+length/2, y + length/2, x + length/2, y - length/2)
+  
+  depth -= 1
+  
+  # top left
+  drawHTree(x-length/2, y-length/2, length/(2.0**(0.5)), depth-1)
+  # bottom left
+  drawHTree(x-length/2, y+length/2, length/(2.0**(0.5)), depth-1)
+  # top right
+  drawHTree(x+length/2, y+length/2, length/(2.0**(0.5)), depth-1)
+  # bottom right
+  drawHTree(x+length/2, y-length/2, length/(2.0**(0.5)), depth-1)
