@@ -86,6 +86,73 @@ def add_two_numbers(l1: Node, l2: Node) -> Node:
     return head.next
 
 
+def reverse_subparts(head: Node):
+    """
+    You are given a singly-linked list that contains N integers. A subpart of the list is a contiguous set of even elements, bordered either by either end of the list or an odd element. For example, if the list is [1, 2, 8, 9, 12, 16], the subparts of the list are [2, 8] and [12, 16].
+    Then, for each subpart, the order of the elements is reversed. In the example, this would result in the new list, [1, 8, 2, 9, 16, 12].
+    The goal of this question is: given a resulting list, determine the original order of the elements.
+    Implementation detail:
+    You must use the following definition for elements in the linked list:
+    class Node {
+        int data;
+        Node next;
+    }
+    Signature
+    Node reverse(Node head)
+    Constraints
+    1 <= N <= 1000, where N is the size of the list
+    1 <= Li <= 10^9, where Li is the ith element of the list
+    Example
+    Input:
+    N = 6
+    list = [1, 2, 8, 9, 12, 16]
+    Output:
+    [1, 8, 2, 9, 16, 12]
+    """
+
+    def reverse_helper(head: Node, end: Node) -> Node:
+        # 3 ptrs
+        prev = None
+        current = head
+        print(f"  |_ head {head.data} -- end {end.data}")
+        while current and current.data <= end.data:
+            next = current.next
+            current.next = prev
+            prev = current
+            current = next
+            print(f"  |___ current {current.data if current else None}")
+        print(f"  |_ after reverse")
+        print_linkedlist(prev)
+        return prev
+
+    current = head
+    prev = None
+    start_index = None
+
+    while current:
+        next = current.next
+        # print(f"Processing {current.data} | prev: {prev} | next: {next}")
+        if (prev is None or prev.data % 2 != 0) and current.data % 2 == 0:
+            print(f"  🏳️ Found start index {current.data}")
+            start_index = current
+
+        if next is None or next.data % 2 != 0 and current.data % 2 == 0:
+            if start_index:
+                # swap [start_index, current]
+                save_next = current.next
+                print(f"  🏁 Found end index {current.data}")
+                current = reverse_helper(start_index, current)
+                current.next = save_next
+            else:
+                prev = current
+                current = next
+        else:
+            prev = current
+            current = next
+
+    return head
+
+
 def test_add_two_numbers():
     # create list 1
     a = Node(1)
@@ -137,6 +204,17 @@ def test_reverse_doubly_ll():
     print_linkedlist(reverse(root))
 
 
+def test_reverse_subparts():
+    head = Node(1)
+    head.next = Node(2)
+    head.next.next = Node(8)
+    head.next.next.next = Node(9)
+    head.next.next.next.next = Node(12)
+    head.next.next.next.next.next = Node(16)
+    print(f"------ Test 1-2-8-9-12-16 ------")
+    print_linkedlist(reverse_subparts(head))
+
+
 def print_linkedlist(head: Node):
     while head:
         print(f"{head.data}-", end=" ")
@@ -147,5 +225,6 @@ def print_linkedlist(head: Node):
 # test_insert_node_at_end_of_ll()
 # test_insert_node_at_specific_position()
 # test_delete_node_at_specific_position()
-test_reverse_doubly_ll()
+# test_reverse_doubly_ll()
 # test_add_two_numbers()
+test_reverse_subparts()
