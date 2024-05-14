@@ -105,3 +105,26 @@ def intervalIntersection(self, firstList: List[List[int]], secondList: List[List
       
   return result
 ```
+
+# Find and return the intersect Rectangle
+Given the Rectangle can be create with this class
+```python
+Rectangle(x, y, width, height)
+```
+There is a list of rectangles, determine if they intersect and return the intersected rectangle
+![intersect_rectangles](../resources/intersected_rectangles.jpeg)
+```python
+def intersect_rectangles(rectA, rectB):
+  def is_intersected(rectA, rectB):
+      return (rectA.x <= rectB.x + rectB.w and rectB.x <= rectA.x + rectA.w and
+                  rectA.y <= rectB.y + rectB.h and rectB.y <= rectA.y + rectA.h)
+
+  if not is_intersected(rectA, rectB):
+    # return an empty rectangle
+    return Rectangle(0,0, -1, -1)
+
+  return Rectangle(max(rectA.x, reactB.x),
+                   max(rectA.y, rectB.y),
+                   min(x1+w1, x2+w2) - max(x1, x2), 
+                   min(y1+h1, y2+h2) - max(y1, y2))
+```
