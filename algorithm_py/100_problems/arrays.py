@@ -296,10 +296,122 @@ def checkSubarraySum(self, nums: List[int], k: int) -> bool:
     return False
 
 
+def dutch_array_partition(nums: List[int], pivot_index: int):
+    """
+    Takes an array and index. Rearrange A so that elements less than A[i] (pivot)
+    appears first, followed by elements equals to the pivot and then greater than the pivot
+    """
+    pivot = nums[pivot_index]
+    smaller, equal, larger = 0, 0, len(nums)
+    while equal < larger:
+        if nums[equal] < pivot:
+            nums[smaller], nums[equal] = nums[equal], nums[smaller]
+            smaller += 1
+            equal += 1
+        elif nums[equal] == pivot:
+            equal += 1
+        else:
+            larger -= 1
+            nums[equal], nums[larger] = nums[larger], nums[equal]
+
+    print(f"Partitioned array: {nums}")
+
+
+def dutch_national_flag(A: List[str]):
+    r, w, b = 0, 0, len(A)
+
+    while w < b:
+        if A[w] == "red":
+            A[r], A[w] = A[w], A[r]
+            r += 1
+            w += 1
+        elif A[w] == "white":
+            w += 1
+        else:
+            b -= 1
+            A[w], A[b] = A[b], A[w]
+
+    print(f"partitioned array: {A}")
+
+
+def plus_one(A):
+    """
+    Time complexity: O(n)
+    Space: O(1)
+    """
+    A[-1] += 1
+    for i in reversed(range(1, len(A))):
+        print(f"@: {i} | A[i]: {A[i]}")
+        if A[i] != 10:
+            print(f" break at {i}")
+            break
+        A[i] = 0
+        A[i - 1] += 1
+    if A[0] == 10:
+        A[0] = 1
+        A.append(0)
+
+    print(A)
+
+
+def plus_array_numbers(A: List[int], B: List[int]) -> List[int]:
+    """
+    Given 2 arrays, might be of different length [1,2,3] + [2,3]
+    Return a new array that has the sum of both
+    1 - 2 - 3
+    0 - 2 - 3
+    """
+    i, j = len(A) - 1, len(B) - 1
+    result = []
+    carry = 0
+    while i >= 0 or j >= 0 or carry:
+        summ = (A[i] if i >= 0 else 0) + (B[j] if j >= 0 else 0) + carry
+        carry = summ // 10
+        digit = summ % 10
+        result.insert(0, digit)
+        i -= 1
+        j -= 1
+
+    print(f"Adding {A} + {B} = {result}")
+
+
+def test_plus_array_numbers():
+    plus_array_numbers([1, 2, 3], [2, 9])
+    plus_array_numbers([9, 9, 9], [9, 9])
+
+
+def test_plus_one():
+    plus_one([1, 2, 9])
+    plus_one([1, 0, 9])
+    plus_one([1, 9, 9])
+
+
+def test_dutch_partition_array():
+    # dutch_array_partition([1, 6, 5, 9, 2], 2)
+    dutch_national_flag(
+        [
+            "red",
+            "blue",
+            "blue",
+            "white",
+            "blue",
+            "blue",
+            "red",
+            "red",
+            "red",
+            "blue",
+            "white",
+        ]
+    )
+
+
 # three_closest_sum_variation_2([1, 6, 5, 9, 2], 7)
 # three_closest_sum_variation_1([-1, 2, 1, -4], 2)
 # three_closest_sum_variation_1([0, 0, 0], 1)
-rotate_array([1, 2, 3], 4)
-rotate_array_right([1, 2, 3], 2)
+# rotate_array([1, 2, 3], 4)
+# rotate_array_right([1, 2, 3], 2)
 # print(move_negatives_to_back([-2, 3, 1, -1]))
 # print(move_negatives_to_back([2, 0, 1, -1, 0, 1, -1, 0, -1]))
+# test_dutch_partition_array()
+# test_plus_one()
+test_plus_array_numbers()

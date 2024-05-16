@@ -128,3 +128,130 @@ def intersect_rectangles(rectA, rectB):
                    min(x1+w1, x2+w2) - max(x1, x2), 
                    min(y1+h1, y2+h2) - max(y1, y2))
 ```
+
+# Array partition with pointers
+Takes an array and index. Rearrange A so that elements less than A[i] (pivot) appears first, followed by elements equals to the pivot and then greater than the pivot
+Time complexity: O(n). n is the length of array
+Space complexity: O(1)
+```python
+def dutch_array_partition(nums: List[int], pivot_index: int):
+    """
+    Takes an array and index. Rearrange A so that elements less than A[i] (pivot)
+    appears first, followed by elements equals to the pivot and then greater than the pivot
+    """
+    pivot = nums[pivot_index]
+    smaller, equal, larger = 0, 0, len(nums)
+    while equal < larger:
+        if nums[equal] < pivot:
+            nums[smaller], nums[equal] = nums[equal], nums[smaller]
+            smaller += 1
+            equal += 1
+        elif nums[equal] == pivot:
+            equal += 1
+        else:
+            larger -= 1
+            nums[equal], nums[larger] = nums[larger], nums[equal]
+```
+
+# CapOne review
+## Range sum
+⭐️ Notice that different between the numbers in the smallest ranges is only 1
+Input: nums = [0,1,2,4,5,7]
+Output: ["0->2","4->5","7"]
+```python
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        #  0  1  2  3
+        # [0, 1, 2, 4] n = 4
+        # i = 0: j = 3: 
+        # [0,2,3,4,6,8,9]
+        n = len(nums)
+        if n == 0:
+            return []
+        
+        i = 0
+        result = []
+        while i < n - 1:
+            j  = i + 1
+            
+            while j < n and nums[j] - nums[j-1] == 1:
+                j += 1
+            if j - i > 1:
+                result.append(f'{nums[i]}->{nums[j-1]}')
+                i = j
+            else:
+                result.append(f'{nums[i]}')
+                i += 1
+           
+        if i == n - 1:
+            result.append(f'{nums[i]}')
+        
+        return result
+```
+## Binary Tree Pruning
+![binary tree pruning](../resources/binary_tree_pruning.png)
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pruneTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        # BFS tree traversal
+        queue = []
+        if not root:
+            return None
+        return root if self.has_one(root) else None
+
+    
+    def has_one(self, node: Optional[TreeNode]):
+        """
+        Returns True if sub tree has 1
+        Return False otherwise
+        """
+        if not node:
+            return False
+        
+        left_has_one = self.has_one(node.left)
+        if not left_has_one:
+            node.left = None
+        right_has_one = self.has_one(node.right)
+        if not right_has_one:
+            node.right = None
+        return node.val or left_has_one or right_has_one
+```
+## Even odd nodes
+![odd even linked list](../resources/oddeven-linked-list.jpg)
+```python
+class Solution:
+   def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+       if not head: return None
+       
+       # odd points to the first node 
+       odd = head
+       # even points to the second node
+       # evenHead will be used at the end to connect odd and even nodes
+       evenHead = even = head.next
+       
+       # This condition makes sure odd can never be None, since the odd node will always be the one before the even node.
+       # If even is not None, then odd is not None. (odd before even)
+       # If even.next is not None, then after we update odd to the next odd node, it cannot be None. (The next odd node is even.next)
+       while even and even.next:
+           
+           # Connect the current odd node to the next odd node
+           odd.next = odd.next.next
+           # Move the current odd node to the next odd node
+           odd = odd.next
+           
+           #Same thing for even node
+           even.next = even.next.next
+           even = even.next
+       
+       # Connect the last odd node to the start of the even node
+       odd.next = evenHead
+
+       # head never changed, so return it
+       return head
+```
