@@ -153,6 +153,9 @@ def dutch_array_partition(nums: List[int], pivot_index: int):
             nums[equal], nums[larger] = nums[larger], nums[equal]
 ```
 
+# Deep copy of lists
+
+
 # CapOne review
 ## Range sum
 ⭐️ Notice that different between the numbers in the smallest ranges is only 1

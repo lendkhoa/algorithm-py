@@ -1,4 +1,5 @@
 import math
+from typing import List
 
 
 def calculate(s: str) -> int:
@@ -185,6 +186,41 @@ def simplify_path(s: str) -> str:
     return "/".join(stack)
 
 
+def group_strings(strings: List[str]) -> List[List[str]]:
+    """
+    Given a list of strings etc ['ab', 'bz']. Each character can be shifted to
+    its successive character. Shifting characters is circular in the alphabetical table.
+    We want to group the strings where the characters are shifted to the same successive element.
+    Meaning, each character can only be shifted to 1 corresponding successive character
+
+    {
+     (1, 1)   : ['abc', 'bcd', 'xyz'],
+     (2, 2, 1): ['acef'],
+         (25,): ['az', 'ba'],
+            (): ['a', 'z']
+    }
+    ⭐️ 'az' and 'ba' should map to the same "shift group" as a + 1 = b and z + 1 = a
+
+    Time complexity: O(n) * O(k)
+    Space complexity: O(n)
+    """
+    map = {}  # key is tuple
+    for s in strings:
+        key = ()
+        for i in range(len(s) - 1):
+            circular_diff = 26 + ord(s[i + 1]) - ord(s[i])
+            print(f"  processing {s} checking i+1 vs i {s[i+1]} vs {s[i]}")
+            key += (circular_diff % 26,)
+            print(f"  i: {i} | key: {key}")
+        map[key] = map.get(key, []) + [s]
+        print(f"s: {s} | {map}")
+    return list(map.values())
+
+
+def test_group_strings():
+    print(group_strings(["ab", "bz"]))
+
+
 def test_simplify_path():
     input_str = "/home///abc/cd../../"
     print(f"input: {input_str}")
@@ -206,4 +242,5 @@ def reverse_digits(digits: int) -> int:
 # print(parse_string_from_left("123"))
 # calculate_no_stack("6-4*2")
 # test_simplify_path()
-print(reverse_digits(12345))
+# print(reverse_digits(12345))
+test_group_strings()

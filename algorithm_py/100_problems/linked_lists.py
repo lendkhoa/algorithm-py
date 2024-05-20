@@ -5,6 +5,15 @@ class Node:
         self.prev = None
 
 
+class NodeWithRandom:
+    def __init__(
+        self, data: int, random: "NodeWithRandom", next: "NodeWithRandom"
+    ) -> None:
+        self.data = data
+        self.random = random
+        self.next = next
+
+
 def insert(head: Node, new_data: int) -> Node:
     to_add = Node(new_data)
     prev = head
@@ -153,6 +162,59 @@ def reverse_subparts(head: Node):
     return head
 
 
+def deep_copy(head: NodeWithRandom) -> NodeWithRandom:
+    """
+    Returns the deep copy of the head.
+    """
+    # Step 1: create a new node next to the old node
+    cur = head
+    while cur:
+        new_node = NodeWithRandom(cur.data, None, None)
+        cur.next = new_node
+        cur = new_node.next
+
+    # Step 2: Update the random pointer
+    cur = head
+    while cur:
+        if cur.random:
+            cur.next.random = cur.random.next
+        cur = cur.next.next  # go to the next node in the orginal list
+
+    # Step 3: Unweave the pointer
+    old_head = head
+    new_head = head.next
+    cur_old = old_head
+    cur_new = new_head
+
+    while cur_old:
+        cur_old.next = cur_old.next.next
+        cur_new.next = cur_new.next.next if cur_new.next else None
+        cur_old = cur_old.next
+        cur_new = cur_new.next
+
+    return new_head
+
+
+def test_deep_copy():
+    # Create a new linked list
+    first = NodeWithRandom(1, None, None)
+    second = NodeWithRandom(2, None, None)
+    third = NodeWithRandom(3, None, None)
+
+    first.next = second
+    second.next = third
+
+    first.random = third
+    third.random = second
+
+    new_head = deep_copy(first)
+
+    print(
+        f"Comparing the old memory address {id(first)} | {first.data}  vs new {id(new_head)} | {new_head.data}"
+    )
+    print(f"Old: first.next vs second: {id(first.next)} vs {id(second)}")
+
+
 def test_add_two_numbers():
     # create list 1
     a = Node(1)
@@ -227,4 +289,5 @@ def print_linkedlist(head: Node):
 # test_delete_node_at_specific_position()
 # test_reverse_doubly_ll()
 # test_add_two_numbers()
-test_reverse_subparts()
+# test_reverse_subparts()
+test_deep_copy()
