@@ -153,6 +153,34 @@ def dutch_array_partition(nums: List[int], pivot_index: int):
             nums[equal], nums[larger] = nums[larger], nums[equal]
 ```
 
+# Group strings
+We can shift a string by shifting each of its letters to its successive letter.
+For example, "abc" can be shifted to be "bcd".
+
+⭐️ We want to store the circular diff between one character to another in the SAME string in the hash map
+⭐️ This key of the hash map will facilitate the connection between different strings
+⭐️ Keep in mind that the character can shift in circular loop
+
+ex1:
+Input: strings = ["abc","bcd","acef","xyz","az","ba","a","z"]
+Output: [["acef"],["a","z"],["abc","bcd","xyz"],["az","ba"]]
+
+```python
+def group_string(strings: List[str]) -> List[List[str]]:
+  hash_map = {} # key is the tuple storing the circular difference
+  for s in strings:
+    key = ()
+    for i in range(len(s)-1):
+      # ba ord('b') = 98 ord('a') 97 :: diff = 26 - 1 | az ord('z') = 122 ord('a') 97 :: diff = 26 + 25
+      # 25 % 26 = 25 | 51 % 26 = 25
+      circular_diff = 26 + (ord(s[i+1]) - ord(s[i]))
+      key += (circular_diff % 26)
+    hash_map[key] = hash_map.get(key, []) + [s]
+  return list(hash_map.values)
+```
+
+# Random
+
 # Deep copy of lists
 
 
@@ -257,4 +285,82 @@ class Solution:
 
        # head never changed, so return it
        return head
+```
+
+# Making largest island
+You are given an n x n binary matrix grid. You are allowed to change at most one 0 to be 1.
+
+Return the size of the largest island in grid after applying this operation.
+
+An island is a 4-directionally connected group of 1s.
+
+❓Check if we can go diagonally
+
+![making-largest-island](../resources/making-largest-island.jpeg)
+
+```python
+from typing import List
+
+# Time complexity: O(n^2) + O(n^2) <-- from the dfs -->
+# Space complexity: O(n^2)
+
+def largest_island(grid: List[List[int]]) -> int:
+    """
+    Return the largest island that can be made if we can transform 1 cell of sea [i][j] = 0
+    to land [i][j] = 1.
+    """
+    n = len(grid)
+    island_id = -1
+    island_area = {}
+
+    directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+    def dfs(grid: List[List[int]], r: int, c: int) -> int:
+        nonlocal island_id
+        nonlocal directions
+        if (0 <= r < len(grid)) and (0 <= c < len(grid[0])) and grid[r][c] == 1:
+            # set the island id
+            grid[r][c] = island_id
+
+            area = 1
+
+            for r_inc, c_inc in directions:
+                new_r = r + r_inc
+                new_c = c + c_inc
+                area += dfs(grid, new_r, new_c)
+            return area
+        else:
+            return 0
+
+    for m in range(len(grid)):
+        for n in range(len(grid[0])):
+            if grid[m][n] == 1:
+                # kick off dfs
+                island_area = dfs(grid, m, n, id)
+                island_area[island_id] = island_area
+                island_id -= 1
+
+    max_area = 0
+    for m in range(len(grid)):
+        for n in range(len(grid[0])):
+            if not grid[m][n]:
+                area = 1
+                # check the surrounding cells
+                surrounding = set()
+                for m_inc, n_inc in directions:
+                    new_m = m + m_inc
+                    new_n = n + n_inc
+                    if (
+                        (0 <= new_m < len(grid))
+                        and (0 <= new_n < len(grid[0]))
+                        and grid[new_m][new_n] != 0
+                    ):
+                        surrounding.add(grid[new_m][new_n])
+                for islandId in surrounding:
+                    area += island_area[islandId]
+                max_area = max(max_area, area)
+
+    # if the entire grid is 1
+    return max_area if max_area > 0 else n**2
+
 ```
