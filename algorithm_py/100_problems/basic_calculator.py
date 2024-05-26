@@ -77,6 +77,8 @@ def calculate(expression: str):
         nonlocal it
 
         def update(op: str, v: int) -> None:
+            nonlocal stack
+
             if op == "+":
                 stack.append(v)
             if op == "-":

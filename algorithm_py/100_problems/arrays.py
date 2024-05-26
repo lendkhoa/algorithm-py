@@ -375,6 +375,30 @@ def plus_array_numbers(A: List[int], B: List[int]) -> List[int]:
     print(f"Adding {A} + {B} = {result}")
 
 
+def merge_arrays(nums1: List[int], m: int, nums2: List[int], n: int) -> List[int]:
+    """
+    Given 2 sorted arrays 1 and 2.
+    Length of array 1 is enough to store both array content. Only the first m element
+    in the 1st array is sorted and non zero. Length of nums2 is n
+    """
+    while n > 0:
+        # Check the largest number of 1st array
+        if nums1[m - 1] >= nums2[n - 1] and m > 0:
+            nums1[m + n - 1] = nums1[m - 1]
+            m -= 1
+            # print(f"Self update nums1 | m: {m} n: {n} | {nums1[m-1]} {nums1}")
+        else:
+            nums1[m + n - 1] = nums2[n - 1]
+            n -= 1
+            # print(f"Merge element from nums2 {nums1} {nums2}|  m: {m} n: {n} | ")
+
+    return nums1
+
+
+def test_merge_arrays():
+    print(merge_arrays([1, 2, 3, 0, 0, 0], 3, [1, 2, 5], 3))
+
+
 def test_plus_array_numbers():
     plus_array_numbers([1, 2, 3], [2, 9])
     plus_array_numbers([9, 9, 9], [9, 9])
@@ -414,4 +438,5 @@ def test_dutch_partition_array():
 # print(move_negatives_to_back([2, 0, 1, -1, 0, 1, -1, 0, -1]))
 # test_dutch_partition_array()
 # test_plus_one()
-test_plus_array_numbers()
+# test_plus_array_numbers()
+test_merge_arrays()

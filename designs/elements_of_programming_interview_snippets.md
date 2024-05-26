@@ -364,3 +364,82 @@ def largest_island(grid: List[List[int]]) -> int:
     return max_area if max_area > 0 else n**2
 
 ```
+
+# Calculator problems
+
+```python
+def calculate(expression: str):
+    """
+    Time: O(n)
+    Space: O(n)
+    """
+    it = 0
+
+    def calc() -> int:
+        nonlocal it
+
+        def update(op: str, v: int) -> None:
+            if op == "+":
+                stack.append(v)
+            if op == "-":
+                stack.append(-v)
+            if op == "*":
+                stack.append(stack.pop() * v)
+            if op == "/":
+                stack.append(int(stack.pop() / v))
+
+        num, stack, sign = 0, [], "+"
+        print(f"calc() is called | num: {num}, stack: {stack}, sign: {sign}")
+
+        while it < len(expression):
+            print(f"  current iterator {it}: {expression[it]}")
+            if expression[it].isdigit():
+                num = num * 10 + int(expression[it])
+            elif expression[it] in "+-*/":
+                update(sign, num)
+                num, sign = 0, expression[it]
+            elif expression[it] == "(":
+                it += 1
+                num = calc()
+            elif expression[it] == ")":
+                update(sign, num)
+                return sum(stack)
+            it += 1
+        update(sign, num)
+        return sum(stack)
+
+    return calc()
+```
+
+# String frequencies
+❓Count the frequencies of the character
+❓Count the frequencies of the frequencies
+```python
+def isValid(s):
+    # count the frequency of character
+    char_count = {}
+    for i in range(len(s)):
+        char_count[s[i]] = char_count.get(s[i], 0) + 1
+    
+    # count the frequency
+    freq_count = {}
+    for count in char_count.values():
+        if count in freq_count:
+            freq_count[count] += 1
+        else:
+            freq_count[count] = 1
+
+    # Step 3: Determine if the string is valid
+    if len(freq_count) == 1:
+        # All characters occur the same number of times
+        return "YES"
+    elif len(freq_count) == 2:
+        # There are two different frequencies
+        keys = list(freq_count.keys())
+        print(f'{keys}') # PRINT out the array of character's freq 
+        # [2, 1] we know that there is only 1 frequencies that potentially > 1
+        if (freq_count[keys[0]] == 1 and (keys[0] - 1 == keys[1] or keys[0] == 1)) or \
+           (freq_count[keys[1]] == 1 and (keys[1] - 1 == keys[0] or keys[1] == 1)):
+            return "YES"
+    return "NO"
+```
