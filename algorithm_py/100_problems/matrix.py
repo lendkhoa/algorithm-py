@@ -59,3 +59,43 @@ def largest_island(grid: List[List[int]]) -> int:
 
     # if the entire grid is 1
     return max_area if max_area > 0 else n**2
+
+
+def matrix_in_spiral_order(matrix) -> None:
+    SHIFT = ((0, 1), (1, 0), (0, -1), (-1, 0))  # right, down, left, top
+    direction = 0  # 4 directions
+    x, y = 0, 0
+    spiral_ordering = []
+
+    for _ in range(len(matrix) ** 2):
+        spiral_ordering.append(matrix[x][y])
+        matrix[x][y] = 0
+        next_x, next_y = x + SHIFT[direction][0], y + SHIFT[direction][1]
+        print(f"Current direction {direction}")
+        if next_x not in range(len(matrix)) or next_y not in range(
+            len(matrix) or matrix[next_x][next_y]
+        ):
+            direction = (direction + 1) & 3
+            print(f" New direction: {direction}")
+            next_x, next_y = x + SHIFT[direction][0], y + SHIFT[direction][1]
+        x, y = next_x, next_y
+
+    print(spiral_ordering)
+
+
+def test_spiral_ordering():
+    matrix = [
+        [5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9],
+    ]
+    matrix_in_spiral_order(matrix)
+
+
+test_spiral_ordering()

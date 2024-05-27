@@ -1,3 +1,4 @@
+from collections import defaultdict
 import math
 from typing import List
 
@@ -215,6 +216,37 @@ def group_strings(strings: List[str]) -> List[List[str]]:
         map[key] = map.get(key, []) + [s]
         print(f"s: {s} | {map}")
     return list(map.values())
+
+def group_anagram(option:int, anagrams: List[str]) -> None:
+    def group_anagram_dict() -> List[List[str]]:
+        nonlocal anagrams
+
+        ans = defaultdict(list)
+        for s in anagrams:
+            key = tuple(sorted(s))
+            if key not in ans:
+                ans[key] = [s]
+            else:
+                ans[key].append(s)
+        return ans.values()
+    
+    def group_anagrams_keys() -> List[List[str]]:
+        nonlocal anagrams
+        ans = defaultdict(list)
+
+        for s in anagrams:
+            key = [0] * 26
+            for ch in s:
+                key[ord('c') - ord('a')] += 1
+            key = tuple(key)
+            ans[key].append(s)
+
+        return ans.values()
+
+    if option == 1:
+        return group_anagram_dict()
+    else:
+        # 26-char key approach
 
 
 def test_group_strings():

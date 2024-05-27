@@ -443,3 +443,38 @@ def isValid(s):
             return "YES"
     return "NO"
 ```
+
+# Product of Two Run-Length Encoded Arrays
+⭐️ Usually straightforward problems involve hidden pattern or intense implementation
+
+⭐️ Update the input array. Keep track of the 'used' frequencies.
+![product of two run length encoded array](../resources/product_encoded_arrays.jpeg)
+
+```python
+def find_product(encoded1: List[List[int]], encoded2: List[List[int]]) -> List[List[int]]:
+    # Using the brute force implementation
+    # would result in memory exceeded
+    # ⭐️ Using pointers
+    i = j = 0
+    res = []
+
+    while i < len(encoded1) and j < len(encoded2):
+        val = encoded1[i][0] * encoded2[j][0]
+        freq = min(encoded1[i][1], encoded2[j][1])
+
+        if res and res[-1][0] == val:
+            # increment the frequency because the 
+            # product value is the same
+            res[-1][1] += freq
+        else:
+            res.append([val, freq])
+        
+        encoded1[i][1] -= freq
+        encoded2[j][1] -= freq
+        # If the frequencies are 0, move on
+        if encode1[i][1] == 0:
+            i += 1
+        if encoded2[j][1] == 0:
+            j += 1
+    return res
+```
