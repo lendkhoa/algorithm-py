@@ -478,3 +478,52 @@ def find_product(encoded1: List[List[int]], encoded2: List[List[int]]) -> List[L
             j += 1
     return res
 ```
+# Building with an ocean view 🌊
+There are n buildings in a line. You are given an integer array heights of size n that represents the heights of the buildings in the line.
+The ocean is to the right of the buildings. A building has an ocean view if the building can see the ocean without obstructions. Formally, a building has an ocean view if all the buildings to its right have a smaller height.
+Return a list of indices (0-indexed) of buildings that have an ocean view, sorted in increasing order. <br>
+
+⭐️ Traverse in reverse
+⭐️ Variant: Ocean view from both side => Find the ocean view from the left and right then get the overlapping results
+
+>Input: heights = [4,2,3,1] <br>
+>Output: [0,2,3] <br>
+>Explanation: Building 1 (0-indexed) does not have an ocean view because building 2 is taller. <br>
+
+![houses with ocean view](../resources/ocean_view.png)
+```python
+def ocean_view_on_right(heights: List[int]) -> List[int]:
+    # Iterate from the right. Keep track of max_righ
+    max_right = heights[-1]
+    ans[len(heights)-1] # the house on the right edge always has ocean view
+
+    for i in range(len(heights)-2, -1, -1):
+        if heights[i] > max_right:
+            max_right = heights[i]
+            ans.append(i)
+    return ans[::-1]
+
+def ocean_view_right(heights: List[int]) -> List[int]:
+    # iterate from the left and maintain monotonic decreasing stack
+    stack = []
+    for i in range(len(heights)):
+        while stack and heights[stack[-1]] <= heights[i]:
+            stack.pop()
+        stack.append(i)
+    return stack
+
+def ocean_view_left(heights: List[int]) -> List[int]:
+    # Maintain a increasing monotonic stack
+    stack = []
+    for i in range(len(heights)):
+        while stack and heights[stack[-1]] >= heights[i]:
+            stack.pop()
+        stack.append(i)
+    return stack 
+```
+
+
+
+
+
+

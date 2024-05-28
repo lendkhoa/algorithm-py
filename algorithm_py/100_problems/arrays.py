@@ -219,6 +219,8 @@ def find_buildings(heights: List[int]) -> List[int]:
     """
     Find building indices with ocean view to the right
     Iterate from the right
+    Time: O(n)
+    Space: O(n)
     """
     check = [-1] * len(heights)
     if len(heights) == 1:
