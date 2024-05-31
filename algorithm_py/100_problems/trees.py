@@ -2,6 +2,13 @@ from collections import defaultdict, deque
 from typing import List, Optional
 
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
 def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:  # type: ignore
     """
     Time complexity: O(N)
@@ -59,3 +66,63 @@ def verticalOrder_dfs(self, root: TreeNode) -> List[List[int]]:  # type: ignore
         ret.append(colVals)
 
     return ret
+
+
+"""
+ALL NODE DISTANCE K in BINARY TREE
+"""
+
+
+def distanceK(root: TreeNode, target: TreeNode, k: int) -> List[int]:
+    conn = defaultdict(list)
+
+    def connect(parent: TreeNode, child: TreeNode):
+        if parent and child:
+            # building an undirected graph
+            conn[parent.val].append(child.val)
+            conn[child.val].append(parent.val)
+        # in-order traversal
+        if child.left:
+            connect(child, child.left)
+        if child.right:
+            connect(child, child.right)
+
+    connect(None, root)
+    print(f"Connect: {conn}")
+
+    bfs = [target.val]
+    seen = set(bfs)
+
+    # we only need to run the search for k step
+    for i in range(k):
+        new_level = []
+        for start_node in bfs:
+            for connected_node in conn[start_node]:
+                if connected_node not in seen:
+                    new_level.append(connected_node)
+        bfs = new_level
+        # union, add all val in bfs to seen
+        seen |= set(bfs)
+        print(f" bfs: {bfs} | {seen}")
+
+    return bfs
+
+
+def test_distanceK():
+    # create tree (directed graph)
+    root = TreeNode(3)
+    root.left = TreeNode(5)
+    root.right = TreeNode(1)
+
+    root.left.left = TreeNode(6)
+    root.left.right = TreeNode(2)
+    root.right.left = TreeNode(0)
+    root.right.right = TreeNode(8)
+
+    root.left.right.left = TreeNode(7)
+    root.left.right.right = TreeNode(4)
+
+    distanceK(root, root.left, 2)
+
+
+test_distanceK()
