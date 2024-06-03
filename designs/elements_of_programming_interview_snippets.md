@@ -366,6 +366,7 @@ def largest_island(grid: List[List[int]]) -> int:
 ```
 
 # Calculator problems
+Solve all pattern of the calculator problems
 
 ```python
 def calculate(expression: str):
@@ -547,6 +548,174 @@ class Solution:
         # ----------------------------------
         
         return helper( node=root, lower=-INF, upper=INF )
+```
+
+# Word break
+> Given a string s, and a dictionary of string wordDict <br>
+return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+**Note** that the same word in the dictionary may be reused multiple times in the segmentation.
+
+
+⭐️ Come up with some ugly example input 'leeeeetcoooode' -> set() to track <br>
+⭐️ Decision tree -> dfs <br>
+
+```python
+def word_break(s: str, wordDict: List[str]) -> bool:
+    # memo to store if the current prefix can be segmented using dict
+    memo = {} # prefix - boolean
+    wordSet = set(wordDict)
+    return dfs(s, memo, wordSet)
+
+def dfs(s, memo, wordSet):
+    """
+    Tries to search among all suffix strings to make sure 
+    that all of them can be segmented using the words in the dictionary
+    """
+    if s in memo:
+        return memo[s]
+    if s in wordSet:
+        return True
+    # ⭐️ iterate through the characters
+    for i in range(1, len(s)):
+        prefix = s[:1]
+        suffix = s[1:]
+        if prefix in wordSet and dfs(suffix, memo, wordSet):
+            memo[prefix] = True
+            return True
+    memo[s] = False
+    return False
+```
+
+# Least Recently Used
+⭐️ To keep the order in which keys have been used, we can implement a queue. The key at the front of the queue is the least recently used key, and the key at the back of the queue is the most recently used key. When we insert a key for the first time, we put it in the back of the queue.  <br>
+⭐️ If we use an array/list to implement the queue, operations will cost O(n). This is because we will frequently be removing elements from arbitrary positions in the list, which costs O(n). <br>
+⭐️ Imagine that the linked list is empty and we call put to create a new key-value pair. We create a node for this key-value pair, then we need to set it as both the head and tail (since it's the only node). <br>
+What if capacity = 1 and we call put again with a new key? You can imagine the headache that might ensue - we need to delete the only existing node, which means we are deleting both the head and tail. Then we need to add the new node, but since the linked list is empty again, we will be setting the new node as the head and tail again.
+The cleanest way to handle the empty list case is by using sentinel nodes.
+
+```python
+class Node:
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.prev = None
+        self.next = None
+class LRU:
+    def __init__(self, capacity: int):
+        self.dict = {}
+        self.capacity = capacity
+        self.head = Node(-1, -1)
+        self.tail = Node(-1, -1)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+    
+    def add_to_end(self, node: Node) -> None:
+        last = self.tail.prev
+        last.next = node
+        node.prev = last
+        node.next = self.tail
+        self.tail.prev = node
+
+    def remove_node_front(self, node: Node) -> None:
+        node.prev.next = node.next.next
+        node.next.prev = node.prev
+    
+    def get(self, key: int) -> int:
+        if key not in self.dict:
+            return -1
+        node = self.dict[key]
+        self.remove_node_front(node)
+        self.add_to_end(node)
+        return node.val
+    
+    def put(self, key: int, val: int) -> None:
+        if key in self.dict:
+            old = self.dict[key]
+            self.remove_node_front(old)
+
+        node = Node(key, val)
+        self.dic[key] = node
+        self.add(node)
+
+        if self.capacity < len(self.dict):
+            delete = self.head.next
+            self.remove_node_front(delete)
+            del self.dict[delete.key]
+```
+
+# Next permutation
+![Next permutation](../resources/next-permutation-algorithm.svg)
+Example
+> input:   0 1 2 5 3 3 0 <br>
+> Output:  0 1 3 0 2 3 5 <br>
+```python
+"""
+Computes the next lexicographical permutation of the specified list in place.
+Returns the rearranged as the lowest possible order, if the array is sorted in descending order
+"""
+def next_permutation(nums: List[int]) -> None:
+    # Find the longest non increasing suffix
+    i = len(nums) - 1
+    while i > 0 and nums[i] <= nums[i-1]:
+        i -= 1
+    
+    if i <= 0:
+        # ⭐️ The array is sorted in descending order 5 4 3 2 1
+        nums[:] = nums[::-1]
+        return
+    
+    # Find successor to pivot
+    j = len(nums) - 1
+    while nums[j] <= nums[i-1]:
+        j -= 1
+    nums[i-1], nums[j] = nums[j], nums[i-1]
+
+    # Reverse the suffix
+    nums[i:] = nums[len(nums)-1: i-1: -1]
+    
+```
+
+# Robot room cleaner
+Given the following robot APIs <br>
+- move(): 
+    + Returns true if the cell in front is open and robot moves into the cell.
+    + Returns false if the cell in front is blocked and robot stays in the current cell.
+- turnLeft():
+    + Robot will stay in the same cell after calling turnLeft/turnRight.
+- turnRight():
+    + Robot will stay in the same cell after calling turnLeft/turnRight. <br>
+
+⭐️ We don't have access to the grid <br>
+⭐️ 0 means block, 1 means move forward <br>
+❓ Write an algorithm to clean the room <br>
+
+![stack back tracking](../resources/stack-backtracking.png)
+
+```python
+def clean_room(robot):
+    cleaned = set()
+    directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+
+    def go_back():
+        robot.turnRight()
+        robot.turnRight()
+        robot.move()
+        robot.turnRight()
+        robot.turnRight()
+
+    def back_track(cell=(0,0), d: int):
+        cleaned.add(cell)
+        
+        for delta in range(4):
+            new_d = (d + delta) % 4
+            new_cell = (cell[0] + directions[delta][0], cell[1] + directions[delta][1])
+
+            if new_cell not in cleaned and robot.move():
+                back_track(new_cell, new_d)
+                go_back()
+            robot.turnRight()
+    
+    back_track()
 ```
 
 

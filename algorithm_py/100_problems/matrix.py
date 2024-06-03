@@ -83,6 +83,44 @@ def matrix_in_spiral_order(matrix) -> None:
     print(spiral_ordering)
 
 
+def matrix_backtrack(matrix):
+    directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+    visited = set()
+
+    def in_bound(cell: tuple) -> bool:
+        nonlocal matrix
+        if cell[0] < 0 or cell[0] >= len(matrix):
+            return False
+        if cell[1] < 0 or cell[1] >= len(matrix[0]):
+            return False
+        return True
+
+    def back_track(cell=(0, 0), d=0):
+        nonlocal directions
+        nonlocal visited
+        visited.add(cell)
+        print(f"Visit cell {cell}")
+
+        for delta in range(4):
+            new_d = (d + delta) % 4
+            new_cell = (cell[0] + directions[delta][0], cell[1] + directions[delta][1])
+            print(f"  New ↔️ {new_d} new cell: {new_cell}")
+            if (
+                new_cell not in visited
+                and in_bound(new_cell)
+                and matrix[new_cell[0]][new_cell[1]] == 1
+            ):
+                print(f"   |_ {new_cell}")
+                back_track(new_cell, new_d)
+
+    back_track()
+
+
+def test_matrix_back_tack():
+    matrix = [[1, 1, 0], [0, 1, 0], [0, 1, 1]]
+    matrix_backtrack(matrix)
+
+
 def test_spiral_ordering():
     matrix = [
         [5, 3, 0, 0, 7, 0, 0, 0, 0],
@@ -98,4 +136,5 @@ def test_spiral_ordering():
     matrix_in_spiral_order(matrix)
 
 
-test_spiral_ordering()
+# test_spiral_ordering()
+test_matrix_back_tack()
