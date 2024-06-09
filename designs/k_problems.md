@@ -186,3 +186,51 @@ def merge_lists(lists: Optional[ListNode]) -> ListNode:
 		i += 1
 	return current
 ```
+
+# Valid Palindrome with K update
+Given a string s and an integer k, return true if s is a k-palindrome. <br>
+A string is k-palindrome if it can be transformed into a palindrome by removing at most k characters from it. <br>
+
+>Example 1:
+>Input: s = "abcdeca", k = 2
+>Output: true
+>Explanation: Remove 'b' and 'e' characters.
+
+⭐️ With Palindrome we have got to think about 2 pointers approach <b2>
+⭐️ It only becomes interesting when s[l] != s[r] <br>
+⭐️ Think of each character as a node in a graph. The important decision we have to make is when s[l] != s[r] <br>
+ - Take the left character
+ - Take the right character
+
+```python
+def isValidPalindrome(self, s: str, k: int) -> bool:
+	"""
+	Time: O(n^2), initialize the visited array. Since there are at most  O(n^2)  pairs and each pair is processed only once, the time complexity for queue operations is  O(n^2) .
+	Space: O(n^2)
+	"""
+	l = 0
+	r = len(s) - 1
+
+	queue = deque([(l, r, 0)]) # l, r, k
+	visited = [[False for _ in range(len(s))] for _ in range(len(s))]
+
+	while queue:
+			l, r, cur_k = queue.popleft()
+			if cur_k > k:
+				return False
+
+			while s[l] == s[r]:
+				l += 1
+				r -= 1
+				if l >= r:
+					return True
+			
+			if not visited[l+1][r]:
+					queue.append((l+1, r, cur_k + 1))
+					visited[l+1][r] = True
+			
+			if not visited[l][r-1]:
+					queue.append((l, r-1, cur_k + 1))
+					visited[l][r-1] = True
+
+```
