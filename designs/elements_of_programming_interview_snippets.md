@@ -718,6 +718,51 @@ def clean_room(robot):
     back_track()
 ```
 
+# Iterate the array in cyclic order, not wrap around
+⭐️ We want to iterate the array from left to right, then return from right to left - K times
+
+![Iterate array from left to right then reverse](../resources/iterate-array-cyclic-not-wrap.jpeg)
+```python
+def index_of_child(n: int, k: int) -> int:
+    n -= 1 # we iterate from 0 - n-1
+    full_loop = k // n
+    rem = k % n
+    if full_loop % 2 == 0: # even
+        return rem # the last index that the pointer will point at
+    else:
+        return n - rem
+```
+**Another approach** <br>
+```python
+def iterate_cyclic(arr: List[int], k: int) -> None:
+    n = len(arr) - 1
+    it = 0
+    direction = -1
+    while k > 0:
+        if it == n or it == 0:
+            direction *= -1
+        k -= 1
+        print(f'{arr[it]}: {arr[it]}')
+        it += direction * 1
+
+
+iterate_cyclic([1,2,3,4,5], 15)
+# 1: 1
+# 2: 2
+# 3: 3
+# 4: 4
+# 5: 5
+# 4: 4
+# 3: 3
+# 2: 2
+# 1: 1
+# 2: 2
+# 3: 3
+# 4: 4
+# 5: 5
+# 4: 4
+# 3: 3
+```
 
 
 
