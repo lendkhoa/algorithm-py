@@ -90,6 +90,37 @@ class Solution:
       return right - left + 1
 ```
 
+## Approach 2
+Intuition <br>
+- Goal: The task is to maximize the length of a subarray consisting of 1's after flipping at most 𝑘 0's to 1's. This requires us to find the longest subarray containing at most 𝑘 0's.
+- Sliding Window Approach: We can think of this problem in terms of a "window" that slides over the array. The idea is to expand the window until we have more than 𝑘 0's and then shrink it from the left until the number of 0's within the window is 𝑘 or fewer. This way, we maintain a window that has at most 𝑘 0's while keeping track of the maximum length of such a window.
+
+```python
+def max_ones(nums: List[int], k: int) -> int:
+	l = 0
+	max_len = 0
+	zero = 0
+
+	for r in range(len(nums)):
+		if nums[r] == 0:
+			zero += 1
+		while zero > k:
+			# When do we shrink the left pointer. When nums[l] == 0
+			# ⭐  If the number of 0's within the window exceeds  𝑘, we move the left pointer to the right to shrink the window until the number of 0's is 𝑘 or fewer.  ️
+			if nums[l] == 0:
+				zero -= 1
+			l += 1
+		max_len = max(max_len, r - l + 1)
+	
+	return max_len
+
+```
+Time complexity: <br>
+O(n): The algorithm makes a single pass through the array with the right pointer moving from the beginning to the end of the array. The left pointer only moves to the right, and each element is processed at most twice (once by right and once by left). Hence, the overall time complexity is linear, or  𝑂 ( 𝑛 ) O(n), where  𝑛 n is the number of elements in the array. <br> 
+
+Space complexity: <br>
+O(1)
+
 # All K nodes from target node
 ⭐️ Because the structure of the node doesn't have a parent pointer, so we must figure out how to associate all nodes to the target node.
 ⭐️ Therefore, we need to connect all node and store them to a data structure
