@@ -1,4 +1,10 @@
+---
+title: "Elements of Programming Interview Snippets"
+author: Khoa Le
+---
+
 # Reverse the number
+
 ![Image Description](../resources/traverse_integer_right_left.jpeg)
 Traversing the array from RIGHT -> LEFT
 ```python
@@ -15,7 +21,7 @@ def reverse(x: int) -> int:
 
 # Re-create the number from left to right from String ↪️
 
-When we need to iterate the string to create a number from characters
+When we need to iterate the string to create a number from characters <br>
 
 ```python
 def create_number(s: str) -> int:
@@ -27,7 +33,9 @@ def create_number(s: str) -> int:
 ```
 
 # Re-create the number from right to left from String ↩️
+
 ![String input - traverse from right to create integer](../resources/str_input_traverse_right_left_create_int.jpeg)
+
 ```python
 def parse_string_from_right(s: str) -> int:
     n = 0
@@ -46,6 +54,7 @@ def parse_string_from_right(s: str) -> int:
 - Need to check the most significant bit vs the least significant big, iteratively
 - LSB: n mod 10
 - MSB: n / 10** (n-1)
+
 ```python
 def is_palindrome_number(x: int) -> bool:
   if x <= 0:
@@ -62,15 +71,16 @@ def is_palindrome_number(x: int) -> bool:
 ```
 
 # Find intersected intervals
-You are given two lists of closed intervals, firstList and secondList, where firstList[i] = [starti, endi] and secondList[j] = [startj, endj]. Each list of intervals is pairwise disjoint and in sorted order.
+You are given two lists of closed intervals, firstList and secondList, where firstList[i] = [starti, endi] and secondList[j] = [startj, endj]. Each list of intervals is pairwise disjoint and in sorted order. <br>
 
-Return the intersection of these two interval lists.
+Return the intersection of these two interval lists. <br>
 
-A closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b.
+A closed interval [a, b] (with a <= b) denotes the set of real numbers x with a <= x <= b. <br>
 
-The intersection of two closed intervals is a set of real numbers that are either empty or represented as a closed interval. For example, the intersection of [1, 3] and [2, 4] is [2, 3]
+The intersection of two closed intervals is a set of real numbers that are either empty or represented as a closed interval. For example, the intersection of [1, 3] and [2, 4] is [2, 3]<br>
 
-⭐️ How do we determine if 2 intervals intersect?
+⭐️ How do we determine if 2 intervals intersect? <br>
+
 ```python
 # [s1, e1] vs [s2, e2]
 def intersected(listA: List[int], listB: List[int]) -> bool:
@@ -81,9 +91,11 @@ def intersected(listA: List[int], listB: List[int]) -> bool:
   return True
 ```
 
-⭐️ How do we alternatively process each element of the element?
-Thinking about binary search. Using 2 pointers.
+⭐️ How do we alternatively process each element of the element? <br>
+Thinking about binary search. Using 2 pointers. <br>
+
 ![intersected intervals](../resources/intersected_intervals.jpeg)
+
 ```python
 def intervalIntersection(self, firstList: List[List[int]], secondList: List[List[int]]) -> List[List[int]]:
   result = []
@@ -107,7 +119,8 @@ def intervalIntersection(self, firstList: List[List[int]], secondList: List[List
 ```
 
 # Find and return the intersect Rectangle
-Given the Rectangle can be create with this class
+Given the Rectangle can be create with this class <br>
+
 ```python
 Rectangle(x, y, width, height)
 ```
@@ -130,9 +143,11 @@ def intersect_rectangles(rectA, rectB):
 ```
 
 # Array partition with pointers
-Takes an array and index. Rearrange A so that elements less than A[i] (pivot) appears first, followed by elements equals to the pivot and then greater than the pivot
-Time complexity: O(n). n is the length of array
-Space complexity: O(1)
+
+Takes an array and index. Rearrange A so that elements less than A[i] (pivot) appears first, followed by elements equals to the pivot and then greater than the pivot <br>
+Time complexity: O(n). n is the length of array <br>
+Space complexity: O(1) <br>
+
 ```python
 def dutch_array_partition(nums: List[int], pivot_index: int):
     """
@@ -154,16 +169,16 @@ def dutch_array_partition(nums: List[int], pivot_index: int):
 ```
 
 # Group strings
-We can shift a string by shifting each of its letters to its successive letter.
-For example, "abc" can be shifted to be "bcd".
+We can shift a string by shifting each of its letters to its successive letter. <br>
+For example, "abc" can be shifted to be "bcd". <br>
 
-⭐️ We want to store the circular diff between one character to another in the SAME string in the hash map
-⭐️ This key of the hash map will facilitate the connection between different strings
-⭐️ Keep in mind that the character can shift in circular loop
+⭐️ We want to store the circular diff between one character to another in the SAME string in the hash map <br>
+⭐️ This key of the hash map will facilitate the connection between different strings <br>
+⭐️ Keep in mind that the character can shift in circular loop <br>
 
-ex1:
-Input: strings = ["abc","bcd","acef","xyz","az","ba","a","z"]
-Output: [["acef"],["a","z"],["abc","bcd","xyz"],["az","ba"]]
+>ex1:
+>Input: strings = ["abc","bcd","acef","xyz","az","ba","a","z"]
+>Output: [["acef"],["a","z"],["abc","bcd","xyz"],["az","ba"]]
 
 ```python
 def group_string(strings: List[str]) -> List[List[str]]:
@@ -183,12 +198,13 @@ def group_string(strings: List[str]) -> List[List[str]]:
 
 # Deep copy of lists
 
-
 # CapOne review
 ## Range sum
-⭐️ Notice that different between the numbers in the smallest ranges is only 1
-Input: nums = [0,1,2,4,5,7]
-Output: ["0->2","4->5","7"]
+⭐️ Notice that different between the numbers in the smallest ranges is only 1 <br>
+
+>Input: nums = [0,1,2,4,5,7]
+>Output: ["0->2","4->5","7"]
+
 ```python
 class Solution:
     def summaryRanges(self, nums: List[int]) -> List[str]:
@@ -219,8 +235,11 @@ class Solution:
         
         return result
 ```
+
 ## Binary Tree Pruning
+
 ![binary tree pruning](../resources/binary_tree_pruning.png)
+
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -253,8 +272,11 @@ class Solution:
             node.right = None
         return node.val or left_has_one or right_has_one
 ```
+
 ## Even odd nodes
+
 ![odd even linked list](../resources/oddeven-linked-list.jpg)
+
 ```python
 class Solution:
    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -288,13 +310,13 @@ class Solution:
 ```
 
 # Making largest island
-You are given an n x n binary matrix grid. You are allowed to change at most one 0 to be 1.
+You are given an n x n binary matrix grid. You are allowed to change at most one 0 to be 1.<br>
 
-Return the size of the largest island in grid after applying this operation.
+Return the size of the largest island in grid after applying this operation.<br>
 
-An island is a 4-directionally connected group of 1s.
+An island is a 4-directionally connected group of 1s.<br>
 
-❓Check if we can go diagonally
+❓Check if we can go diagonally <br>
 
 ![making-largest-island](../resources/making-largest-island.jpeg)
 
@@ -366,7 +388,7 @@ def largest_island(grid: List[List[int]]) -> int:
 ```
 
 # Calculator problems
-Solve all pattern of the calculator problems
+Solve all pattern of the calculator problems <br>
 
 ```python
 def calculate(expression: str):
@@ -413,8 +435,9 @@ def calculate(expression: str):
 ```
 
 # String frequencies
-❓Count the frequencies of the character
-❓Count the frequencies of the frequencies
+❓Count the frequencies of the character <br>
+❓Count the frequencies of the frequencies <br>
+
 ```python
 def isValid(s):
     # count the frequency of character
@@ -446,10 +469,11 @@ def isValid(s):
 ```
 
 # Product of Two Run-Length Encoded Arrays
-⭐️ Usually straightforward problems involve hidden pattern or intense implementation
+⭐️ Usually straightforward problems involve hidden pattern or intense implementation<br>
 
-⭐️ Update the input array. Keep track of the 'used' frequencies.
-![product of two run length encoded array](../resources/product_encoded_arrays.jpeg)
+⭐️ Update the input array. Keep track of the 'used' frequencies. <br>
+
+![product of two run length encoded array](../resources/product_encoded_arrays.jpeg) <br>
 
 ```python
 def find_product(encoded1: List[List[int]], encoded2: List[List[int]]) -> List[List[int]]:
@@ -480,12 +504,12 @@ def find_product(encoded1: List[List[int]], encoded2: List[List[int]]) -> List[L
     return res
 ```
 # Building with an ocean view 🌊
-There are n buildings in a line. You are given an integer array heights of size n that represents the heights of the buildings in the line.
-The ocean is to the right of the buildings. A building has an ocean view if the building can see the ocean without obstructions. Formally, a building has an ocean view if all the buildings to its right have a smaller height.
+There are n buildings in a line. You are given an integer array heights of size n that represents the heights of the buildings in the line.<br>
+The ocean is to the right of the buildings. A building has an ocean view if the building can see the ocean without obstructions. Formally, a building has an ocean view if all the buildings to its right have a smaller height.<br>
 Return a list of indices (0-indexed) of buildings that have an ocean view, sorted in increasing order. <br>
 
-⭐️ Traverse in reverse
-⭐️ Variant: Ocean view from both side => Find the ocean view from the left and right then get the overlapping results
+⭐️ Traverse in reverse <br>
+⭐️ Variant: Ocean view from both side => Find the ocean view from the left and right then get the overlapping results <br>
 
 >Input: heights = [4,2,3,1] <br>
 >Output: [0,2,3] <br>
@@ -524,6 +548,7 @@ def ocean_view_left(heights: List[int]) -> List[int]:
 ```
 
 # Validate Binary Search Tree
+
 ```python
 class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
@@ -552,8 +577,8 @@ class Solution:
 
 # Word break
 > Given a string s, and a dictionary of string wordDict <br>
-return true if s can be segmented into a space-separated sequence of one or more dictionary words.
-**Note** that the same word in the dictionary may be reused multiple times in the segmentation.
+return true if s can be segmented into a space-separated sequence of one or more dictionary words. <br>
+**Note** that the same word in the dictionary may be reused multiple times in the segmentation. <br>
 
 
 ⭐️ Come up with some ugly example input 'leeeeetcoooode' -> set() to track <br>
@@ -590,8 +615,8 @@ def dfs(s, memo, wordSet):
 ⭐️ To keep the order in which keys have been used, we can implement a queue. The key at the front of the queue is the least recently used key, and the key at the back of the queue is the most recently used key. When we insert a key for the first time, we put it in the back of the queue.  <br>
 ⭐️ If we use an array/list to implement the queue, operations will cost O(n). This is because we will frequently be removing elements from arbitrary positions in the list, which costs O(n). <br>
 ⭐️ Imagine that the linked list is empty and we call put to create a new key-value pair. We create a node for this key-value pair, then we need to set it as both the head and tail (since it's the only node). <br>
-What if capacity = 1 and we call put again with a new key? You can imagine the headache that might ensue - we need to delete the only existing node, which means we are deleting both the head and tail. Then we need to add the new node, but since the linked list is empty again, we will be setting the new node as the head and tail again.
-The cleanest way to handle the empty list case is by using sentinel nodes.
+What if capacity = 1 and we call put again with a new key? You can imagine the headache that might ensue - we need to delete the only existing node, which means we are deleting both the head and tail. Then we need to add the new node, but since the linked list is empty again, we will be setting the new node as the head and tail again.<br>
+The cleanest way to handle the empty list case is by using sentinel nodes. <br>
 
 ```python
 class Node:
@@ -645,9 +670,11 @@ class LRU:
 
 # Next permutation
 ![Next permutation](../resources/next-permutation-algorithm.svg)
-Example
+
+> Example
 > input:   0 1 2 5 3 3 0 <br>
 > Output:  0 1 3 0 2 3 5 <br>
+
 ```python
 """
 Computes the next lexicographical permutation of the specified list in place.
@@ -675,7 +702,7 @@ def next_permutation(nums: List[int]) -> None:
     
 ```
 
-# Robot room cleaner
+# Robot room cleaner | Back tracking
 Given the following robot APIs <br>
 - move(): 
     + Returns true if the cell in front is open and robot moves into the cell.
@@ -718,8 +745,38 @@ def clean_room(robot):
     back_track()
 ```
 
+# Letter Combination
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.<br>
+
+> Input: '23'
+> Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+
+Time: For digits like 2 to 9, which map to 3 or 4 letters, the complexity can be estimated as  O (3^n)  or O(4^n) in the worst case, where n is the number of digits <br>
+Space: Overall O(n * k^n) <br>
+
+```python
+def letterCombination(digits: str) -> List[str]:
+    n = len(digits)
+    if n == 0:
+        return []
+    pad = {'2': 'abc', ...}
+
+    cur =[]
+    sol = []
+
+    def backtrack(i=0):
+        if len(cur) == n:
+            sol.append(''.join(cur[:]))
+            return
+        for num in pad[digits[i]]:
+            cur.append(num)
+            backtrack(i+1)
+            cur.pop()
+    return sol
+```
+
 # Iterate the array in cyclic order, not wrap around
-⭐️ We want to iterate the array from left to right, then return from right to left - K times
+⭐️ We want to iterate the array from left to right, then return from right to left - K times <br>
 
 ![Iterate array from left to right then reverse](../resources/iterate-array-cyclic-not-wrap.jpeg)
 ```python
@@ -732,7 +789,9 @@ def index_of_child(n: int, k: int) -> int:
     else:
         return n - rem
 ```
+
 **Another approach** <br>
+
 ```python
 def iterate_cyclic(arr: List[int], k: int) -> None:
     n = len(arr) - 1
@@ -763,8 +822,11 @@ iterate_cyclic([1,2,3,4,5], 15)
 # 4: 4
 # 3: 3
 ```
+
 # Shortest distance from all buildings
+
 ![Shortest distance to all building](../resources/shortest-dist-to-all-building.png)
+
 ```python
 class Solution:
     def __init__(self):

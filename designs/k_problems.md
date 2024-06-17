@@ -1,10 +1,15 @@
+---
+title: "K Problems"
+author: Khoa Le
+---
+
 # Kth missing positive number
 Given an array of *positive* integers in a strictly increasing order and an integer *k*. Return the K missing number in the array
 
-input: [2,3,4,7,11] <br>
-k: 5 <br>
-return: 9 <br>
-The missing integers [1,5,6,8,9,10,12,13,...] <br>
+>input: [2,3,4,7,11] <br>
+>k: 5 <br>
+>return: 9 <br>
+>The missing integers [1,5,6,8,9,10,12,13,...] <br>
 
 ```python
 def naive_approach(nums: List[int]) -> int:
@@ -27,10 +32,11 @@ def naive_approach(nums: List[int]) -> int:
 ⭐️  input array is sorted. And the sorted input should ring the bell: "let's try to solve it in a logarithmic time using binary search" <br>
 
 > ⭐️ Given [2,3,4,7,11] length = 5. With an array with no missing number <br>
-> [1,2,3,4,5]. These are the numbers of the array if there is no missing number from 1 to n.
-> So to find the missing number before nums[i]: nums[i] - i - 1
+> [1,2,3,4,5]. These are the numbers of the array if there is no missing number from 1 to n.<br>
+> So to find the missing number before nums[i]: nums[i] - i - 1 <br>
 
 ![](../resources/missing_positive_number.png)
+
 ```python
 def find_kth_missing_positive(nums: List[int]) -> int:
 	"""
@@ -54,14 +60,15 @@ def find_kth_missing_positive(nums: List[int]) -> int:
 	return left + k
 ```
 ![missing k-th positive](../resources/missing_k-th_positive.png)
-# Max Consecutive Ones III
-⭐️ Sliding window, keep track of the left and right pointer.
-Given a binary array nums and integer k, return the maximum number of consecutive 1s in the array if you can flip k 0s
 
-Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
-Output: 6
-Explanation: [1,1,1,0,0,1,1,1,1,1,1]
-Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
+# Max Consecutive Ones III
+⭐️ Sliding window, keep track of the left and right pointer. <br>
+Given a binary array nums and integer k, return the maximum number of consecutive 1s in the array if you can flip k 0s <br>
+
+>Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+>Output: 6
+>Explanation: [1,1,1,0,0,1,1,1,1,1,1]
+>Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
 
 ![max consecutive ones 1](../resources/max_consecutive_ones.png)
 ![max consecutive ones 2](../resources/max_consecutive_ones2.jpeg)
@@ -91,9 +98,11 @@ class Solution:
 ```
 
 ## Approach 2
+
 Intuition <br>
-- Goal: The task is to maximize the length of a subarray consisting of 1's after flipping at most 𝑘 0's to 1's. This requires us to find the longest subarray containing at most 𝑘 0's.
-- Sliding Window Approach: We can think of this problem in terms of a "window" that slides over the array. The idea is to expand the window until we have more than 𝑘 0's and then shrink it from the left until the number of 0's within the window is 𝑘 or fewer. This way, we maintain a window that has at most 𝑘 0's while keeping track of the maximum length of such a window.
+
+- Goal: The task is to maximize the length of a subarray consisting of 1's after flipping at most k 0's to 1's. This requires us to find the longest subarray containing at most k 0's.
+- Sliding Window Approach: We can think of this problem in terms of a "window" that slides over the array. The idea is to expand the window until we have more thank k 0's and then shrink it from the left until the number of 0's within the window is k or fewer. This way, we maintain a window that has at most k 0's while keeping track of the maximum length of such a window.
 
 ```python
 def max_ones(nums: List[int], k: int) -> int:
@@ -116,14 +125,13 @@ def max_ones(nums: List[int], k: int) -> int:
 
 ```
 Time complexity: <br>
-O(n): The algorithm makes a single pass through the array with the right pointer moving from the beginning to the end of the array. The left pointer only moves to the right, and each element is processed at most twice (once by right and once by left). Hence, the overall time complexity is linear, or  𝑂 ( 𝑛 ) O(n), where  𝑛 n is the number of elements in the array. <br> 
+O(n): The algorithm makes a single pass through the array with the right pointer moving from the beginning to the end of the array. The left pointer only moves to the right, and each element is processed at most twice (once by right and once by left). Hence, the overall time complexity is linear, or O(n), where n is the number of elements in the array. <br> 
 
-Space complexity: <br>
-O(1)
+Space complexity: O(1) <br>
 
 # All K nodes from target node
-⭐️ Because the structure of the node doesn't have a parent pointer, so we must figure out how to associate all nodes to the target node.
-⭐️ Therefore, we need to connect all node and store them to a data structure
+⭐️ Because the structure of the node doesn't have a parent pointer, so we must figure out how to associate all nodes to the target node. <br>
+⭐️ Therefore, we need to connect all node and store them to a data structure <br>
 
 ```python
 def distance_k(root: TreeNode, target: TreeNode, k: int):
@@ -167,7 +175,8 @@ def distance_k(root: TreeNode, target: TreeNode, k: int):
 # Merge K sorted list
 
 ## Brute force
-⭐️ We want to get tall the node values, sort them, then create a new linked list
+⭐️ We want to get tall the node values, sort them, then create a new linked list <br>
+
 ```python
 def merge_k_brute_force(lists: Optional[ListNode]):
 	"""
