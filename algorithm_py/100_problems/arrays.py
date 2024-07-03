@@ -113,16 +113,16 @@ def rotate_array(arr, n):
     return result
 
 
-def rotate_array_right(nums, n):
-    print(f"Rotating array {nums} to the right {n} step")
+def rotate_array_right(nums, k):
+    print(f"Rotating array {nums} to the right {k} step")
     """
     Rotating to the right k step is the
     same as rotating to the left n - k steps
     """
-    n = (len(nums) - n) % len(nums)
+    k = (len(nums) - k) % len(nums)
     result = []
     for i in range(len(nums)):
-        result.append(nums[(i + n) % len(nums)])
+        result.append(nums[(i + k) % len(nums)])
 
     print(f"Rotated array: {result}")
     return result
