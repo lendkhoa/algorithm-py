@@ -12,7 +12,7 @@ grid = [
 Output: True
 """
 from typing import List
-
+# Time: O(m * 4^n)
 def word_search(board: List[List[str]], word: str) -> bool:
     ROWS, COLS = len(board), len(board[0])
     path = set()
