@@ -52,3 +52,28 @@ class LRUCache:
             self.price_table[isbn] = price
         return price
 
+
+# Reviewed on Dec 16, 2024
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.store = collections.OrderedDict()
+        self.capacity = capacity
+    
+    def lookup(self, key):
+        if key not in self.store:
+            return -1
+        value = self.store.pop(key)
+        self.store[key] = value
+        return value
+    
+    def insert(self, key, value):
+        if key in self.store:
+            value = self.store.pop(key)
+        elif self.capacity <= len(self.store):
+            # pop the oldes item, which is the first item
+            self.store.popitem(last=False)
+            self.store[key] = value
+        return value
+
+    def erase(self, key):
+        return self.store.pop(key, None) is not None
