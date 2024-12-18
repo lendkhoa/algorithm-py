@@ -1,6 +1,7 @@
 """
 Find the K largest element in the stream
 """
+from typing import List
 import heapq
 
 # Space: O(k) for the heap
